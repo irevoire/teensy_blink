@@ -4,6 +4,8 @@
 
 use teensy::*;
 
+define_panic!(empty);
+
 #[no_mangle]
 fn sleep() {
     for _ in 0..200000 {
