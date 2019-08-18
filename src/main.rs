@@ -4,29 +4,18 @@
 
 use teensy::*;
 
-define_panic!(empty);
-
-#[no_mangle]
-fn sleep() {
-    for _ in 0..200000 {
-        unsafe {
-            core::arch::arm::__nop();
-        }
-    }
-}
+define_panic! {empty}
 
 #[no_mangle]
 fn main() {
-    let pin = unsafe { port::Port::new(port::PortName::C).pin(5) };
+    let led = unsafe { make_pin!(led) };
 
-    let mut gpio = pin.make_gpio();
+    let mut led = led.make_gpio();
 
-    gpio.output();
+    led.output();
 
     loop {
-        sleep();
-        sleep();
-        sleep();
-        gpio.toggle();
+        led.toggle();
+        sleep::sleep_ms(500);
     }
 }
